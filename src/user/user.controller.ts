@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
@@ -7,26 +7,31 @@ export class UserController {
     constructor(private userService: UserService) { }
     @Post()
     create(@Body() userDto: CreateUserDto) {
-        return 'This action adds a new user to db';
+        try {
+            return this.userService.create(userDto);
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Get()
     findAll(): string {
-        return 'This action returns all cats';
+        return 'This action returns all users';
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return `This action returns a #${id} cat`;
+        return `This action returns a #${id} user`;
     }
+    
 
     @Put(':id')
     update(@Param('id') id: string, @Body() updateCatDto: UpdateUserDto) {
-        return `This action updates a #${id} cat`;
+        return `This action updates a #${id} user`;
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return `This action removes a #${id} cat`;
+        return `This action removes a #${id} user`;
     }
 }
