@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, GetUserDto } from './dto/user.dto';
 import { User } from './entity/user.entity';
 
 @Injectable()
@@ -25,15 +25,24 @@ export class UserService {
          
     }
 
-    // async findAll(user: CreateUserDto): Promise<CreateUserDto> {
-    //     try {
-    //     await 
-    //     } catch (error) {
-            
-    //     }
-    // }
+    async findAll(): Promise<CreateUserDto[]> {
+        try {
+        const users = await this.usersRepository.find();
+        return users;
+        } catch (error) {
+            throw new HttpException('INVALID TOKEN', HttpStatus.BAD_REQUEST);
+        }
+    }
 
-    // async findOne(user: CreateUserDto): Promise<CreateUserDto> {
-    //     return this.users.find(user => user.username === username);
-    //   }
+    async findOne(userName: string): Promise<CreateUserDto> {
+        try {
+            const user = await this.usersRepository.findOne({where:{
+                userName:userName
+            }});
+            return user;
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+        
+      }
 }

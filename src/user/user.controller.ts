@@ -15,13 +15,13 @@ export class UserController {
     }
 
     @Get()
-    findAll(): string {
-        return 'This action returns all users';
+     findAll(): Promise<CreateUserDto[]> {
+        return this.userService.findAll();
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return `This action returns a #${id} user`;
+    @Get(':username')
+    findOne(@Param('username') userName: string) {
+        return this.userService.findOne(userName);
     }
     
 

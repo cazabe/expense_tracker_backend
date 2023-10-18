@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User } from './user/entity/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 const configService = new ConfigService();
 
@@ -26,7 +27,8 @@ const configService = new ConfigService();
       entities: [User],
       synchronize: true,
     }),
-    UserModule
+    UserModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -22,5 +22,11 @@ export class UpdateUserDto {
     name: string;
     userName: string;
     password: string;
-    status: boolean;
+    status: string;
+}
+
+export class GetUserDto {
+    name: string;
+    userName: string;
+    status: string;
 }
