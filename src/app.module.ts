@@ -15,7 +15,6 @@ const configService = new ConfigService();
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      cache: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
