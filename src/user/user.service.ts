@@ -25,12 +25,12 @@ export class UserService {
          
     }
 
-    async findAll(): Promise<CreateUserDto[]> {
+    async findAll(): Promise<GetUserDto[]> {
         try {
         const users = await this.usersRepository.find();
         return users;
         } catch (error) {
-            throw new HttpException('INVALID TOKEN', HttpStatus.BAD_REQUEST);
+            throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -41,7 +41,7 @@ export class UserService {
             }});
             return user;
         } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+            throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
         }
         
       }

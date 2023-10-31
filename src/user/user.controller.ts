@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { CreateUserDto, UpdateUserDto,GetUserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { Public } from 'src/common/decorators/auth.decorator';
 
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) { }
+
+    @Public()
     @Post()
     create(@Body() userDto: CreateUserDto) {
         try {
@@ -16,7 +18,7 @@ export class UserController {
     }
     @Public()
     @Get()
-     findAll(): Promise<CreateUserDto[]> {
+     findAll(): Promise<GetUserDto[]> {
         return this.userService.findAll();
     }
 
