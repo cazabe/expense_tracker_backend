@@ -7,6 +7,9 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User } from './user/entity/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { ExpenseModule } from './expense/expense.module';
+import { ExpenseTypeModule } from './expense_type/expense_type.module';
+import { PaymentTypeModule } from './payment_type/payment_type.module';
 
 const configService = new ConfigService();
 
@@ -27,7 +30,10 @@ const configService = new ConfigService();
       synchronize: true,
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    ExpenseModule,
+    ExpenseTypeModule,
+    PaymentTypeModule
   ],
   controllers: [AppController],
   providers: [AppService],
