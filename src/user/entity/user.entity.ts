@@ -14,6 +14,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: true })
+  @Column({ default: 'A' })
   status: string;
 }

@@ -1,5 +1,4 @@
-import { Expense } from 'src/expense/entity/expense.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class ExpenseEntitytype {
@@ -11,7 +10,4 @@ export class ExpenseEntitytype {
 
   @Column({ default: true })
   status: string;
-
-  @ManyToOne(() => Expense, (expense) => expense.expenseType)
-    expense: Expense
 }

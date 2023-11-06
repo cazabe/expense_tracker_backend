@@ -1,5 +1,6 @@
 import { ExpenseEntitytype } from 'src/expense_type/entity/expense_type.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany  } from 'typeorm';
+import { PaymentType } from 'src/payment_type/entity/payment_type.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Expense {
@@ -18,9 +19,15 @@ export class Expense {
   @Column()
   deleted: Date;
 
-  @Column({ default: true })
+  @Column({ default: 'A' })
   status: string;
 
-  @OneToMany(() => ExpenseEntitytype, (expenseType) => expenseType.expense)
-    expenseType: ExpenseEntitytype[]
+  @OneToOne(() => ExpenseEntitytype)
+  @JoinColumn()
+  expenseType: Number
+
+  @OneToOne(() => PaymentType)
+  @JoinColumn()
+  paymentType: Number
+
 }
