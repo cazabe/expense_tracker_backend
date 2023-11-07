@@ -8,6 +8,6 @@ export class ExpenseEntitytype {
   @Column()
   expense_type: string;
 
-  @Column({ default: true })
+  @Column({ default: 'A' })
   status: string;
 }

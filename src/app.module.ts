@@ -5,11 +5,14 @@ import { LoginMiddleware } from './common/middleware/loggin.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { User } from './user/entity/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { ExpenseModule } from './expense/expense.module';
 import { ExpenseTypeModule } from './expense_type/expense_type.module';
 import { PaymentTypeModule } from './payment_type/payment_type.module';
+import { User } from './user/entity/user.entity';
+import { Expense } from './expense/entity/expense.entity';
+import { ExpenseEntitytype } from './expense_type/entity/expense_type.entity';
+import { PaymentType } from './payment_type/entity/payment_type.entity';
 
 const configService = new ConfigService();
 
@@ -26,7 +29,7 @@ const configService = new ConfigService();
       username: configService.get('DB_USER'),
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_NAME'),
-      entities: [User],
+      entities: [User, ExpenseEntitytype, PaymentType, Expense],
       synchronize: true,
     }),
     UserModule,
