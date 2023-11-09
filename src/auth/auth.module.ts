@@ -16,7 +16,7 @@ import { AuthGuard } from './guards/auth.guards';
         return {
           secret: config.get<string>('JWT_SECRET'),
           signOptions: {
-            expiresIn: '30m',
+            expiresIn: '8h',
           },
         };
       },

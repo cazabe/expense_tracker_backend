@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ExpenseEntitytype } from './entity/expense_type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateExpenseTypeDto } from './dto/createExpenseTypeDto';
+import { CreateExpenseTypeDto } from './dto/expenseTypeDto';
 
 @Injectable()
 export class ExpenseTypeService {

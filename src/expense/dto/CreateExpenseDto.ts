@@ -6,14 +6,13 @@ export class CreateExpenseDto {
 
     @IsNotEmpty()
     @IsNumber()
-    amount: Number;
+    amount: number;
 
     @IsNotEmpty()
     @IsNumber()
     created: Date;
 
     @IsDateString()
-    @IsNotEmpty()
     deleted: Date;
 
     @IsNotEmpty()

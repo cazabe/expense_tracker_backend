@@ -25,7 +25,6 @@ import { IS_PUBLIC_KEY } from 'src/common/decorators/auth.decorator';
       }
       const request = context.switchToHttp().getRequest();
       const token = this.extractTokenFromHeader(request);
-      console.log('El token que viene del request ', token);
       
       if (!token) {
         throw new UnauthorizedException();

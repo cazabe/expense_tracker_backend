@@ -9,6 +9,7 @@ export class ExpenseController {
 
     @Post()
     create(@Body() expenseDto: CreateExpenseDto) {
+        console.log(expenseDto);
         try {
             return this.expenseService.create(expenseDto);
         } catch (error) {

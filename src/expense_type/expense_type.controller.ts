@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
-import { CreateExpenseTypeDto } from './dto/createExpenseTypeDto';
+import { CreateExpenseTypeDto } from './dto/expenseTypeDto';
 import { ExpenseTypeService } from './expense_type.service';
 
 

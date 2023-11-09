@@ -8,6 +8,6 @@ export class PaymentType {
   @Column()
   payment_name: string;
 
-  @Column({ default: true })
+  @Column({ default: 'A' })
   status: string;
 }
