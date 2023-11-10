@@ -20,4 +20,13 @@ export class ExpenseTypeService {
         }
          
     }
+    async FindOne(id: number): Promise<{}> {        
+        try {
+            const result = this.expenseTypeRepository.findBy({id:id});
+            return result;
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+         
+    }
 }

@@ -16,9 +16,7 @@ export class Expense {
   @Column()
   created: Date;
 
-  @Column({
-    nullable: true,
-})
+  @Column({nullable: true})
   deleted: Date;
 
   @Column({ default: 'A' })
@@ -26,10 +24,10 @@ export class Expense {
 
   @OneToOne(() => ExpenseEntitytype)
   @JoinColumn()
-  expenseType: number
+  expenseType: ExpenseEntitytype
 
   @OneToOne(() => PaymentType)
   @JoinColumn()
-  paymentType: number
+  paymentType: PaymentType
 
 }

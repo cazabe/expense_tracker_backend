@@ -21,9 +21,9 @@ export class CreateExpenseDto {
 
     @IsNotEmpty()
     @IsNumber()
-    expenseTypeId : Number
+    expenseTypeId : number
 
     @IsNotEmpty()
     @IsNumber()
-    paymentTypeId:Number
+    paymentTypeId:number
 }

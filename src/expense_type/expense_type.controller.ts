@@ -14,4 +14,14 @@ export class ExpenseTypeController {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Get(':id')
+    findOne(@Param('id') id: number) {
+        try {
+            console.log('este es el id', id);
+            return this.expenseTypeService.FindOne(id);
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+    }
 }

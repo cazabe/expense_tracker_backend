@@ -3,15 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Expense } from './entity/expense.entity';
 import { CreateExpenseDto } from './dto/CreateExpenseDto';
+import { ExpenseTypeService } from 'src/expense_type/expense_type.service';
 
 @Injectable()
 export class ExpenseService {
     constructor(
         @InjectRepository(Expense)
         private expenseRepository: Repository<Expense>,
+        private expesnseTypeService:ExpenseTypeService
       ) {}
     async create(expense: CreateExpenseDto): Promise<string> {
         try {
+            const type = this.expesnseTypeService.FindOne(expense.expenseTypeId);
             this.expenseRepository.save(expense);
             return 'Expense created'
         } catch (error) {
