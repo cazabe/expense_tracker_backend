@@ -14,13 +14,25 @@ export class ExpenseService {
       ) {}
     async create(expense: CreateExpenseDto): Promise<string> {
         try {
-            const type = this.expesnseTypeService.FindOne(expense.expenseTypeId);
-            this.expenseRepository.save(expense);
+            const type = await this.expesnseTypeService.FindOne(expense.expenseTypeId);
+            if(!type){
+                throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+            }
+            const newExpense = this.expenseRepository.create(expense);
+            this.expenseRepository.save(newExpense);
             return 'Expense created'
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
          
+    }
+
+    async getExpense():Promise<{}>{
+        return this.expenseRepository.find(
+            {
+                relations:['expenseType']
+            }
+        )
     }
 
     // async findAll(): Promise<GetUserDto[]> {

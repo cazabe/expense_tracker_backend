@@ -9,17 +9,16 @@ export class ExpenseController {
 
     @Post()
     create(@Body() expenseDto: CreateExpenseDto) {
-        console.log(expenseDto);
         try {
             return this.expenseService.create(expenseDto);
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
     }
-    // @Get()
-    //  findAll(): Promise<GetUserDto[]> {
-    //     return this.userService.findAll();
-    // }
+    @Get()
+     findAll(): Promise<{}> {
+        return this.expenseService.getExpense();
+    }
 
     // @Get(':username')
     // findOne(@Param('username') userName: string) {
