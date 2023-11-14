@@ -17,7 +17,12 @@ export class ExpenseController {
     }
     @Get()
      findAll(): Promise<{}> {
-        return this.expenseService.getExpense();
+        return this.expenseService.getExpenses();
+    }
+
+    @Put(':id')
+     update(@Body() expenseDto:CreateExpenseDto, @Param('id') id: number): Promise<{}> {
+        return this.expenseService.updateExpense(id, expenseDto);
     }
 
     // @Get(':username')

@@ -9,8 +9,7 @@ export class CreateExpenseDto {
     amount: number;
 
     @IsNotEmpty()
-    @IsNumber()
-    created: Date;
+    created: string;
 
     @IsDateString()
     deleted: Date;

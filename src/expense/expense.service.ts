@@ -5,6 +5,7 @@ import { Expense } from './entity/expense.entity';
 import { CreateExpenseDto } from './dto/CreateExpenseDto';
 import { ExpenseTypeService } from 'src/expense_type/expense_type.service';
 import { PaymentTypeService } from 'src/payment_type/payment_type.service';
+import { getTodayDate } from 'src/common/utils/util';
 
 @Injectable()
 export class ExpenseService {
@@ -22,6 +23,7 @@ export class ExpenseService {
             if(!type || !payment){
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             }
+            expense.created = getTodayDate();
             const newExpense = this.expenseRepository.create(expense);
             this.expenseRepository.save(newExpense);
             return 'Expense created'
@@ -31,32 +33,28 @@ export class ExpenseService {
          
     }
 
-    async getExpense():Promise<{}>{
+    async getExpenses():Promise<{}>{
         return this.expenseRepository.find(
             {
                 relations:['expenseType', 'paymentType']
-            }
+            },
         )
     }
 
-    // async findAll(): Promise<GetUserDto[]> {
-    //     try {
-    //     const users = await this.usersRepository.find();
-    //     return users;
-    //     } catch (error) {
-    //         throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
-    //     }
-    // }
-
-    // async findOne(userName: string): Promise<GetUserDto> {
-    //     try {
-    //         const user = await this.usersRepository.findOne({where:{
-    //             userName:userName
-    //         }});
-    //         return user;
-    //     } catch (error) {
-    //         throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
-    //     }
+    async updateExpense(id:number, updateExpense: CreateExpenseDto):Promise<string>{
+        try{
+        const expense = await this.expenseRepository.findOneBy({id:id});
+        expense.expense_name = updateExpense.expense_name
+        expense.amount = updateExpense.amount
+        expense.expenseTypeId = updateExpense.expenseTypeId
+        expense.paymentTypeId = updateExpense.paymentTypeId
+        this.expenseRepository.save(expense);
+        return 'Expense updated'
+        }catch(error){
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
         
-    //   }
+    }
+
+    
 }
