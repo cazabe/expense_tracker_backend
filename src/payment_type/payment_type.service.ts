@@ -20,4 +20,14 @@ export class PaymentTypeService {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
     }
+
+    async FindOne(id: number): Promise<{}> {        
+        try {
+            const result = this.paymentTypeRepository.findOneBy({id:id});
+            return result;
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+         
+    }
 }

@@ -4,18 +4,22 @@ import { Repository } from 'typeorm';
 import { Expense } from './entity/expense.entity';
 import { CreateExpenseDto } from './dto/CreateExpenseDto';
 import { ExpenseTypeService } from 'src/expense_type/expense_type.service';
+import { PaymentTypeService } from 'src/payment_type/payment_type.service';
 
 @Injectable()
 export class ExpenseService {
     constructor(
         @InjectRepository(Expense)
         private expenseRepository: Repository<Expense>,
-        private expesnseTypeService:ExpenseTypeService
+        private expesnseTypeService:ExpenseTypeService,
+        private paymentTypeService:PaymentTypeService
       ) {}
     async create(expense: CreateExpenseDto): Promise<string> {
         try {
             const type = await this.expesnseTypeService.FindOne(expense.expenseTypeId);
-            if(!type){
+            const payment = await this.paymentTypeService.FindOne(expense.paymentTypeId);
+            
+            if(!type || !payment){
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             }
             const newExpense = this.expenseRepository.create(expense);
@@ -30,7 +34,7 @@ export class ExpenseService {
     async getExpense():Promise<{}>{
         return this.expenseRepository.find(
             {
-                relations:['expenseType']
+                relations:['expenseType', 'paymentType']
             }
         )
     }

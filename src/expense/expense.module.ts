@@ -4,10 +4,11 @@ import { ExpenseService } from './expense.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Expense } from './entity/expense.entity';
 import { ExpenseTypeModule } from 'src/expense_type/expense_type.module';
+import { PaymentTypeModule } from 'src/payment_type/payment_type.module';
 
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Expense]), ExpenseTypeModule],
+  imports:[TypeOrmModule.forFeature([Expense]), ExpenseTypeModule, PaymentTypeModule],
   controllers: [ExpenseController],
   providers: [ExpenseService]
 })
