@@ -29,4 +29,18 @@ export class ExpenseTypeService {
         }
          
     }
+
+    async Update(id: number, expenseType:CreateExpenseTypeDto): Promise<string> {        
+        try {
+            const expenseTypeRes = await this.expenseTypeRepository.findOneBy({id:id});
+            if(!expenseTypeRes){
+                throw new HttpException('Bad request', HttpStatus.CONFLICT);
+            }
+            this.expenseTypeRepository.update(id, expenseType);
+            return 'Expense Type updated';
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+         
+    }
 }
