@@ -21,23 +21,14 @@ export class ExpenseController {
     }
 
     @Put(':id')
-     update(@Body() expenseDto:CreateExpenseDto, @Param('id') id: number): Promise<{}> {
+     update(@Param('id') id: number, @Body() expenseDto:CreateExpenseDto): Promise<{}> {
         return this.expenseService.updateExpense(id, expenseDto);
     }
 
-    // @Get(':username')
-    // findOne(@Param('username') userName: string) {
-    //     return this.userService.findOne(userName);
-    // }
+    @Put('delete/:id')
+    remove(@Param('id') id: number) {
+        return this.expenseService.deleteExpense(id);
+    }
+
     
-
-    // @Put(':id')
-    // update(@Param('id') id: string, @Body() updateCatDto: UpdateUserDto) {
-    //     return `This action updates a #${id} user`;
-    // }
-
-    // @Delete(':id')
-    // remove(@Param('id') id: string) {
-    //     return `This action removes a #${id} user`;
-    // }
 }

@@ -44,16 +44,31 @@ export class ExpenseService {
     async updateExpense(id:number, updateExpense: CreateExpenseDto):Promise<string>{
         try{
         const expense = await this.expenseRepository.findOneBy({id:id});
-        expense.expense_name = updateExpense.expense_name
-        expense.amount = updateExpense.amount
-        expense.expenseTypeId = updateExpense.expenseTypeId
-        expense.paymentTypeId = updateExpense.paymentTypeId
-        this.expenseRepository.save(expense);
+        if(!expense){
+            throw new HttpException('Bad request', HttpStatus.CONFLICT);
+        }
+        this.expenseRepository.update(id, updateExpense);
         return 'Expense updated'
         }catch(error){
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
         
+    }
+
+    async deleteExpense(id:number):Promise<string>{
+        console.log('El id que llego ', id);
+        
+        try{
+            const expense = await this.expenseRepository.findOneBy({id:id});
+            if(!expense){
+                throw new HttpException('Bad request', HttpStatus.CONFLICT);
+            }
+            expense.status = 'I';
+            this.expenseRepository.update(id, expense);
+            return 'Expense deleted'
+            }catch(error){
+                throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+            }
     }
 
     
