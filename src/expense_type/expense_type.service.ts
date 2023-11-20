@@ -30,6 +30,14 @@ export class ExpenseTypeService {
          
     }
 
+    async FindAll():Promise<{}>{
+        try {
+            return await this.expenseTypeRepository.findBy({ status: 'A' });
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+    }
+
     async Update(id: number, expenseType:CreateExpenseTypeDto): Promise<string> {        
         try {
             const expenseTypeRes = await this.expenseTypeRepository.findOneBy({id:id});
@@ -38,6 +46,21 @@ export class ExpenseTypeService {
             }
             this.expenseTypeRepository.update(id, expenseType);
             return 'Expense Type updated';
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+         
+    }
+
+    async Delete(id: number): Promise<string> {        
+        try {
+            const expenseTypeRes = await this.expenseTypeRepository.findOneBy({id:id});
+            if(!expenseTypeRes){
+                throw new HttpException('Bad request', HttpStatus.CONFLICT);
+            }
+            expenseTypeRes.status = 'I';
+            this.expenseTypeRepository.update(id, expenseTypeRes);
+            return 'Expense Type deleted';
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }

@@ -8,24 +8,26 @@ export class ExpenseTypeController {
     constructor(private expenseTypeService:ExpenseTypeService){}
     @Post()
     create(@Body() expenseTypeDto: CreateExpenseTypeDto) {
-        try {
             return this.expenseTypeService.create(expenseTypeDto);
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
+    }
+
+    @Get()
+    findAll():Promise<{}> {
+            return this.expenseTypeService.FindAll();   
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number) {
-        try {
+    findOne(@Param('id') id: number):Promise<{}> {
             return this.expenseTypeService.FindOne(id);
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
     }
 
     @Put(':id')
-     update(@Param('id') id: number, @Body() expenseTypeDto:CreateExpenseTypeDto): Promise<{}> {
+     update(@Param('id') id: number, @Body() expenseTypeDto:CreateExpenseTypeDto): Promise<string> {
         return this.expenseTypeService.Update(id, expenseTypeDto);
+    }
+
+    @Put('delete/:id')
+     delete(@Param('id') id: number): Promise<string> {
+        return this.expenseTypeService.Delete(id);
     }
 }

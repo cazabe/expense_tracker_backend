@@ -14,4 +14,31 @@ export class PaymentTypeController {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
     }
+    @Get()
+    get():Promise<{}> {
+        try {
+            return this.paymetTypeService.getAll();
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Get(':id')
+    getOne(@Param('id') id: number):Promise<{}> {
+        try {
+            return this.paymetTypeService.FindOne(id);
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Put(':id')
+     update(@Param('id') id: number, @Body() typePaymentDto:CreatePaymentTypeDto): Promise<string> {
+        return this.paymetTypeService.updatePaymentType(id, typePaymentDto);
+    }
+
+    @Put('delete/:id')
+     delete(@Param('id') id: number): Promise<string> {
+        return this.paymetTypeService.deletePaymentType(id);
+    }
 }

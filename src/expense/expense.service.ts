@@ -25,7 +25,7 @@ export class ExpenseService {
             }
             expense.created = getTodayDate();
             const newExpense = this.expenseRepository.create(expense);
-            this.expenseRepository.save(newExpense);
+            await this.expenseRepository.save(newExpense);
             return 'Expense created'
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
@@ -34,11 +34,17 @@ export class ExpenseService {
     }
 
     async getExpenses():Promise<{}>{
-        return this.expenseRepository.find(
-            {
-                relations:['expenseType', 'paymentType']
-            },
-        )
+        try {
+            return await this.expenseRepository.find(
+                {
+                    relations:['expenseType', 'paymentType'],
+                    where:{status:'A'}
+                },
+            )
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.NOT_FOUND);
+        }
+       
     }
 
     async updateExpense(id:number, updateExpense: CreateExpenseDto):Promise<string>{
@@ -56,7 +62,6 @@ export class ExpenseService {
     }
 
     async deleteExpense(id:number):Promise<string>{
-        console.log('El id que llego ', id);
         
         try{
             const expense = await this.expenseRepository.findOneBy({id:id});
