@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { CreatePaymentTypeDto } from './dto/payamentTypeDto';
 import { PaymentTypeService } from './payment_type.service';
 

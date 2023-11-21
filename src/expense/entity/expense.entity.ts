@@ -1,6 +1,7 @@
 import { ExpenseEntitytype } from 'src/expense_type/entity/expense_type.entity';
 import { PaymentType } from 'src/payment_type/entity/payment_type.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from 'src/user/entity/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class Expense {
@@ -33,4 +34,7 @@ export class Expense {
 
   @ManyToOne(() => PaymentType, (paymentType) => paymentType.expense)
   paymentType: PaymentType[]
+
+  @OneToMany(() => User, (user) => user.expense)
+    user: User
 }

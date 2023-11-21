@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Expense } from 'src/expense/entity/expense.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +17,10 @@ export class User {
 
   @Column({ default: 'A' })
   status: string;
+
+  @Column({nullable: true})
+  expenseId:number 
+
+  @ManyToOne(() => Expense, (expense) => expense.user)
+  expense: Expense[]
 }
