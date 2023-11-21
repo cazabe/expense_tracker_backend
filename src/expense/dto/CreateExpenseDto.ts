@@ -6,14 +6,12 @@ export class CreateExpenseDto {
 
     @IsNotEmpty()
     @IsNumber()
-    amount: Number;
+    amount: number;
 
     @IsNotEmpty()
-    @IsNumber()
-    created: Date;
+    created: string;
 
     @IsDateString()
-    @IsNotEmpty()
     deleted: Date;
 
     @IsNotEmpty()
@@ -22,9 +20,9 @@ export class CreateExpenseDto {
 
     @IsNotEmpty()
     @IsNumber()
-    expenseTypeId : Number
+    expenseTypeId : number
 
     @IsNotEmpty()
     @IsNumber()
-    paymentTypeId:Number
+    paymentTypeId:any
 }

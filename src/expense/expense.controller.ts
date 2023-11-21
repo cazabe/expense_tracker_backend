@@ -15,24 +15,20 @@ export class ExpenseController {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
     }
-    // @Get()
-    //  findAll(): Promise<GetUserDto[]> {
-    //     return this.userService.findAll();
-    // }
+    @Get()
+     findAll(): Promise<{}> {
+        return this.expenseService.getExpenses();
+    }
 
-    // @Get(':username')
-    // findOne(@Param('username') userName: string) {
-    //     return this.userService.findOne(userName);
-    // }
+    @Put(':id')
+     update(@Param('id') id: number, @Body() expenseDto:CreateExpenseDto): Promise<{}> {
+        return this.expenseService.updateExpense(id, expenseDto);
+    }
+
+    @Put('delete/:id')
+    remove(@Param('id') id: number) {
+        return this.expenseService.deleteExpense(id);
+    }
+
     
-
-    // @Put(':id')
-    // update(@Param('id') id: string, @Body() updateCatDto: UpdateUserDto) {
-    //     return `This action updates a #${id} user`;
-    // }
-
-    // @Delete(':id')
-    // remove(@Param('id') id: string) {
-    //     return `This action removes a #${id} user`;
-    // }
 }

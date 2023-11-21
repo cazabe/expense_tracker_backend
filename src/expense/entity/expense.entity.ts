@@ -1,6 +1,6 @@
 import { ExpenseEntitytype } from 'src/expense_type/entity/expense_type.entity';
 import { PaymentType } from 'src/payment_type/entity/payment_type.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Expense {
@@ -10,24 +10,27 @@ export class Expense {
   @Column()
   expense_name: string;
 
-  @Column()
-  amount: Number;
+  @Column('decimal', { precision: 6, scale: 2 })
+  amount: number;
 
   @Column()
   created: Date;
 
-  @Column()
+  @Column({nullable: true})
   deleted: Date;
 
   @Column({ default: 'A' })
   status: string;
 
-  @OneToOne(() => ExpenseEntitytype)
-  @JoinColumn()
-  expenseType: Number
+  @Column({nullable: true})
+  expenseTypeId:number 
 
-  @OneToOne(() => PaymentType)
-  @JoinColumn()
-  paymentType: Number
+  @Column({nullable: true})
+  paymentTypeId:number 
 
+  @ManyToOne(() => ExpenseEntitytype, (expenseType) => expenseType.expense)
+  expenseType: ExpenseEntitytype[]
+
+  @ManyToOne(() => PaymentType, (paymentType) => paymentType.expense)
+  paymentType: PaymentType[]
 }
