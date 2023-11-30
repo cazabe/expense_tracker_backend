@@ -24,10 +24,14 @@ export class Expense {
   status: string;
 
   @Column({nullable: true})
-  expenseTypeId:number 
+  expenseTypeId:number; 
 
   @Column({nullable: true})
-  paymentTypeId:number 
+  paymentTypeId:number; 
+
+  @Column({nullable: true})
+  userId:number; 
+
 
   @ManyToOne(() => ExpenseEntitytype, (expenseType) => expenseType.expense)
   expenseType: ExpenseEntitytype[]
@@ -35,6 +39,6 @@ export class Expense {
   @ManyToOne(() => PaymentType, (paymentType) => paymentType.expense)
   paymentType: PaymentType[]
 
-  @OneToMany(() => User, (user) => user.expense)
-    user: User
+  @ManyToOne(() => User, (user) => user.expense)
+  user: User[]
 }

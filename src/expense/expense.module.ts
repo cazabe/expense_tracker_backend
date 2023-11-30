@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Expense } from './entity/expense.entity';
 import { ExpenseTypeModule } from 'src/expense_type/expense_type.module';
 import { PaymentTypeModule } from 'src/payment_type/payment_type.module';
+import { UserModule } from 'src/user/user.module';
 
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Expense]), ExpenseTypeModule, PaymentTypeModule],
+  imports:[TypeOrmModule.forFeature([Expense]), ExpenseTypeModule, PaymentTypeModule, UserModule],
   controllers: [ExpenseController],
   providers: [ExpenseService]
 })

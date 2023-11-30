@@ -44,4 +44,16 @@ export class UserService {
         }
         
       }
+
+      async findOneById(userId: number): Promise<GetUserDto> {
+        try {
+            const user = await this.usersRepository.findOne({where:{
+                id:userId
+            }});
+            return user;
+        } catch (error) {
+            throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
+        }
+        
+      }
 }

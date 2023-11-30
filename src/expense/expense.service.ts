@@ -6,6 +6,7 @@ import { CreateExpenseDto } from './dto/CreateExpenseDto';
 import { ExpenseTypeService } from 'src/expense_type/expense_type.service';
 import { PaymentTypeService } from 'src/payment_type/payment_type.service';
 import { getTodayDate } from 'src/common/utils/util';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ExpenseService {
@@ -13,14 +14,16 @@ export class ExpenseService {
         @InjectRepository(Expense)
         private expenseRepository: Repository<Expense>,
         private expesnseTypeService:ExpenseTypeService,
-        private paymentTypeService:PaymentTypeService
+        private paymentTypeService:PaymentTypeService,
+        private userService:UserService,
       ) {}
     async create(expense: CreateExpenseDto): Promise<string> {
         try {
             const type = await this.expesnseTypeService.FindOne(expense.expenseTypeId);
             const payment = await this.paymentTypeService.FindOne(expense.paymentTypeId);
+            const user = await this.userService.findOneById(expense.userId);
             
-            if(!type || !payment){
+            if(!type || !payment || !user){
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             }
             expense.created = getTodayDate();
@@ -37,7 +40,21 @@ export class ExpenseService {
         try {
             return await this.expenseRepository.find(
                 {
-                    relations:['expenseType', 'paymentType'],
+                    relations:['expenseType', 'paymentType', 'user'],
+                    where:{status:'A'}
+                },
+            )
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.NOT_FOUND);
+        }
+       
+    }
+
+    async getTotalExpenses():Promise<{}>{
+        try {
+            return await this.expenseRepository.find(
+                {
+                    relations:['expenseType', 'paymentType', 'user'],
                     where:{status:'A'}
                 },
             )

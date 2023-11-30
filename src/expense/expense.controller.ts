@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/CreateExpenseDto';
 import { ExpenseService } from './expense.service';
 
@@ -17,6 +17,11 @@ export class ExpenseController {
     }
     @Get()
      findAll(): Promise<{}> {
+        return this.expenseService.getExpenses();
+    }
+
+    @Get('total-expense')
+     getTotalExpense(): Promise<{}> {
         return this.expenseService.getExpenses();
     }
 
