@@ -8,8 +8,13 @@ import { PaymentTypeService } from 'src/payment_type/payment_type.service';
 import { getTodayDate } from 'src/common/utils/util';
 import { UserService } from 'src/user/user.service';
 
+interface querySearchExpense {
+    "fecha-init": string;
+    "fecha-fin": string;
+  }
 @Injectable()
 export class ExpenseService {
+    
     constructor(
         @InjectRepository(Expense)
         private expenseRepository: Repository<Expense>,
@@ -50,16 +55,37 @@ export class ExpenseService {
        
     }
 
-    async getTotalExpenses():Promise<{}>{
+    async getTotalAmount(query:querySearchExpense):Promise<{amount:number}>{
+        console.log(query['fecha-init']);
+        console.log(query['fecha-fin']);
+        
+        console.log(new Date(query['fecha-init']));
+        console.log(new Date(query['fecha-fin']));
+        
+
+
+        let totalExpense:number = 0;
+        
         try {
-            return await this.expenseRepository.find(
+            const expenses = await this.expenseRepository.find(
                 {
-                    relations:['expenseType', 'paymentType', 'user'],
                     where:{status:'A'}
                 },
             )
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.NOT_FOUND);
+                
+        expenses.forEach((expense) => {
+            if (!expense.amount) {
+                totalExpense = 0;
+                return;
+            }
+            totalExpense += Number(expense.amount);
+        });
+        
+        totalExpense = Number(totalExpense.toFixed(2));
+
+            return {amount: totalExpense};
+        } catch (error) {            
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
        
     }

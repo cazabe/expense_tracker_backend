@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/CreateExpenseDto';
 import { ExpenseService } from './expense.service';
 
@@ -21,12 +21,12 @@ export class ExpenseController {
     }
 
     @Get('total-expense')
-     getTotalExpense(): Promise<{}> {
-        return this.expenseService.getExpenses();
+     getTotalExpense(@Query() query:{"fecha-init":string, "fecha-fin":string }): Promise<{amount:number}> {
+        return this.expenseService.getTotalAmount(query);
     }
 
     @Put(':id')
-     update(@Param('id') id: number, @Body() expenseDto:CreateExpenseDto): Promise<{}> {
+     update(@Param('id')     id: number, @Body() expenseDto:CreateExpenseDto): Promise<{}> {
         return this.expenseService.updateExpense(id, expenseDto);
     }
 
