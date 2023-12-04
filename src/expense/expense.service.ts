@@ -69,7 +69,7 @@ export class ExpenseService {
         try {
             const expenses = await this.expenseRepository.find(
                 {
-                    where:{status:'A'}
+                    where:{status:'A', created:new Date(query['fecha-init'])}
                 },
             )
                 
