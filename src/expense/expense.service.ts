@@ -9,8 +9,7 @@ import { getTodayDate } from 'src/common/utils/util';
 import { UserService } from 'src/user/user.service';
 
 interface querySearchExpense {
-    "fecha-init": string;
-    "fecha-fin": string;
+    "fecha-filter": string;
   }
 @Injectable()
 export class ExpenseService {
@@ -56,20 +55,13 @@ export class ExpenseService {
     }
 
     async getTotalAmount(query:querySearchExpense):Promise<{amount:number}>{
-        console.log(query['fecha-init']);
-        console.log(query['fecha-fin']);
         
-        console.log(new Date(query['fecha-init']));
-        console.log(new Date(query['fecha-fin']));
-        
-
-
         let totalExpense:number = 0;
         
         try {
             const expenses = await this.expenseRepository.find(
                 {
-                    where:{status:'A', created:new Date(query['fecha-init'])}
+                    where:{status:'A', created:query['fecha-filter']}
                 },
             )
                 

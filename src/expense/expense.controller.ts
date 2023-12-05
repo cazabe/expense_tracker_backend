@@ -21,7 +21,7 @@ export class ExpenseController {
     }
 
     @Get('total-expense')
-     getTotalExpense(@Query() query:{"fecha-init":string, "fecha-fin":string }): Promise<{amount:number}> {
+     getTotalExpense(@Query() query:{"fecha-filter":string}): Promise<{amount:number}> {
         return this.expenseService.getTotalAmount(query);
     }
 
