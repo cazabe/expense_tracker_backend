@@ -7,7 +7,7 @@ export class CreateUserDto {
 
     @IsNotEmpty()
     @IsString()
-    userName: string;
+    username: string;
 
     @IsNotEmpty()
     @IsString()
@@ -20,15 +20,15 @@ export class CreateUserDto {
 
 export class UpdateUserDto {
     name: string;
-    userName: string;
+    username: string;
     password: string;
     status: string;
 }
 
 export class GetUserDto {
-    id:number;
+    id: number;
     name: string;
-    userName: string;
+    username: string;
     password: string;
     status: string;
 }

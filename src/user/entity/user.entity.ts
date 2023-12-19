@@ -10,7 +10,7 @@ export class User {
   name: string;
 
   @Column({ unique: true })
-  userName: string;
+  username: string;
 
   @Column()
   password: string;
@@ -19,5 +19,5 @@ export class User {
   status: string;
 
   @OneToMany(() => Expense, (expense) => expense.user)
-    expense: Expense
+  expense: Expense
 }

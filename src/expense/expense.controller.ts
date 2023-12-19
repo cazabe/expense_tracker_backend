@@ -8,25 +8,21 @@ export class ExpenseController {
     constructor(private expenseService: ExpenseService) { }
 
     @Post()
-    create(@Body() expenseDto: CreateExpenseDto) {
-        try {
-            return this.expenseService.create(expenseDto);
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
+    create(@Body() expenseDto: CreateExpenseDto): Promise<String> {
+        return this.expenseService.create(expenseDto);
     }
     @Get()
-     findAll(): Promise<{}> {
+    findAll(): Promise<{}> {
         return this.expenseService.getExpenses();
     }
 
     @Get('total-expense')
-     getTotalExpense(@Query() query:{"fecha-filter":string}): Promise<{amount:number}> {
+    getTotalExpense(@Query() query: { "fecha-filter": string }): Promise<{ amount: number }> {
         return this.expenseService.getTotalAmount(query);
     }
 
     @Put(':id')
-     update(@Param('id')     id: number, @Body() expenseDto:CreateExpenseDto): Promise<{}> {
+    update(@Param('id') id: number, @Body() expenseDto: CreateExpenseDto): Promise<{}> {
         return this.expenseService.updateExpense(id, expenseDto);
     }
 
@@ -35,5 +31,5 @@ export class ExpenseController {
         return this.expenseService.deleteExpense(id);
     }
 
-    
+
 }

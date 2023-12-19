@@ -5,40 +5,28 @@ import { PaymentTypeService } from './payment_type.service';
 @Controller('payment-type')
 export class PaymentTypeController {
 
-    constructor(private paymetTypeService:PaymentTypeService){}
+    constructor(private paymetTypeService: PaymentTypeService) { }
     @Post()
-    create(@Body() paymentTypeDto: CreatePaymentTypeDto):{} {
-        try {
-            return this.paymetTypeService.create(paymentTypeDto);
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
+    create(@Body() paymentTypeDto: CreatePaymentTypeDto): {} {
+        return this.paymetTypeService.create(paymentTypeDto);
     }
     @Get()
-    get():Promise<{}> {
-        try {
-            return this.paymetTypeService.getAll();
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
+    get(): {} {
+        return this.paymetTypeService.getAll();
     }
 
     @Get(':id')
-    getOne(@Param('id') id: number):Promise<{}> {
-        try {
-            return this.paymetTypeService.FindOne(id);
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
+    getOne(@Param('id') id: number): {} {
+        return this.paymetTypeService.FindOne(id);
     }
 
     @Put(':id')
-     update(@Param('id') id: number, @Body() typePaymentDto:CreatePaymentTypeDto): Promise<string> {
+    update(@Param('id') id: number, @Body() typePaymentDto: CreatePaymentTypeDto): Promise<string> {
         return this.paymetTypeService.updatePaymentType(id, typePaymentDto);
     }
 
     @Put('delete/:id')
-     delete(@Param('id') id: number): Promise<string> {
+    delete(@Param('id') id: number): Promise<string> {
         return this.paymetTypeService.deletePaymentType(id);
     }
 }

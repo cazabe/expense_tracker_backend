@@ -10,24 +10,24 @@ import { UserService } from 'src/user/user.service';
 
 interface querySearchExpense {
     "fecha-filter": string;
-  }
+}
 @Injectable()
 export class ExpenseService {
-    
+
     constructor(
         @InjectRepository(Expense)
         private expenseRepository: Repository<Expense>,
-        private expesnseTypeService:ExpenseTypeService,
-        private paymentTypeService:PaymentTypeService,
-        private userService:UserService,
-      ) {}
+        private expesnseTypeService: ExpenseTypeService,
+        private paymentTypeService: PaymentTypeService,
+        private userService: UserService,
+    ) { }
     async create(expense: CreateExpenseDto): Promise<string> {
         try {
             const type = await this.expesnseTypeService.FindOne(expense.expenseTypeId);
             const payment = await this.paymentTypeService.FindOne(expense.paymentTypeId);
             const user = await this.userService.findOneById(expense.userId);
-            
-            if(!type || !payment || !user){
+
+            if (!type || !payment || !user) {
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             }
             expense.created = getTodayDate();
@@ -37,79 +37,79 @@ export class ExpenseService {
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
-         
+
     }
 
-    async getExpenses():Promise<{}>{
+    async getExpenses(): Promise<{}> {
         try {
             return await this.expenseRepository.find(
                 {
-                    relations:['expenseType', 'paymentType', 'user'],
-                    where:{status:'A'}
+                    relations: ['expenseType', 'paymentType', 'user'],
+                    where: { status: 'A' }
                 },
             )
         } catch (error) {
             throw new HttpException('Bad request', HttpStatus.NOT_FOUND);
         }
-       
+
     }
 
-    async getTotalAmount(query:querySearchExpense):Promise<{amount:number}>{
-        
-        let totalExpense:number = 0;
-        
+    async getTotalAmount(query: querySearchExpense): Promise<{ amount: number }> {
+
+        let totalExpense: number = 0;
+
         try {
             const expenses = await this.expenseRepository.find(
                 {
-                    where:{status:'A', created:query['fecha-filter']}
+                    where: { status: 'A', created: query['fecha-filter'] }
                 },
             )
-                
-        expenses.forEach((expense) => {
-            if (!expense.amount) {
-                totalExpense = 0;
-                return;
+
+            expenses.forEach((expense) => {
+                if (!expense.amount) {
+                    totalExpense = 0;
+                    return;
+                }
+                totalExpense += Number(expense.amount);
+            });
+
+            totalExpense = Number(totalExpense.toFixed(2));
+
+            return { amount: totalExpense };
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    async updateExpense(id: number, updateExpense: CreateExpenseDto): Promise<string> {
+        try {
+            const expense = await this.expenseRepository.findOneBy({ id: id });
+            if (!expense) {
+                throw new HttpException('Bad request', HttpStatus.CONFLICT);
             }
-            totalExpense += Number(expense.amount);
-        });
-        
-        totalExpense = Number(totalExpense.toFixed(2));
-
-            return {amount: totalExpense};
-        } catch (error) {            
+            this.expenseRepository.update(id, updateExpense);
+            return 'Expense updated'
+        } catch (error) {
             throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
         }
-       
+
     }
 
-    async updateExpense(id:number, updateExpense: CreateExpenseDto):Promise<string>{
-        try{
-        const expense = await this.expenseRepository.findOneBy({id:id});
-        if(!expense){
-            throw new HttpException('Bad request', HttpStatus.CONFLICT);
-        }
-        this.expenseRepository.update(id, updateExpense);
-        return 'Expense updated'
-        }catch(error){
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
-        
-    }
+    async deleteExpense(id: number): Promise<string> {
 
-    async deleteExpense(id:number):Promise<string>{
-        
-        try{
-            const expense = await this.expenseRepository.findOneBy({id:id});
-            if(!expense){
+        try {
+            const expense = await this.expenseRepository.findOneBy({ id: id });
+            if (!expense) {
                 throw new HttpException('Bad request', HttpStatus.CONFLICT);
             }
             expense.status = 'I';
             this.expenseRepository.update(id, expense);
             return 'Expense deleted'
-            }catch(error){
-                throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-            }
+        } catch (error) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
     }
 
-    
+
 }

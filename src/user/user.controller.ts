@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto,GetUserDto } from './dto/user.dto';
+import { CreateUserDto, UpdateUserDto, GetUserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { Public } from 'src/common/decorators/auth.decorator';
 
@@ -9,16 +9,12 @@ export class UserController {
 
     @Public()
     @Post()
-    create(@Body() userDto: CreateUserDto) {
-        try {
-            return this.userService.create(userDto);
-        } catch (error) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
+    create(@Body() userDto: CreateUserDto): Promise<string> {
+        return this.userService.create(userDto);
     }
     @Public()
     @Get()
-     findAll(): Promise<GetUserDto[]> {
+    findAll(): Promise<GetUserDto[]> {
         return this.userService.findAll();
     }
 
@@ -26,7 +22,7 @@ export class UserController {
     findOne(@Param('username') userName: string) {
         return this.userService.findOne(userName);
     }
-    
+
 
     @Put(':id')
     update(@Param('id') id: string, @Body() updateCatDto: UpdateUserDto) {
